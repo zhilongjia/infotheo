@@ -1,2 +1,3 @@
 infotheo package version 1.0 16/06/09
-          
+version 1.0.2 26/06/09
+log((double)int)

@@ -120,8 +120,8 @@ double digamma(double z) {
 double entropy_empirical(map< vector<int> ,int > frequencies, int nb_samples) {
       double e = 0;
       for (map< vector<int> ,int>::const_iterator iter = frequencies.begin(); iter != frequencies.end(); ++iter)
-            e -= iter->second * std::log(iter->second);
-      return std::log(nb_samples) + e/nb_samples;
+            e -= iter->second * log((double)iter->second);
+      return log((double)nb_samples) + e/nb_samples;
 }
 
 double entropy_miller_madow(map< vector<int> ,int > frequencies, int nb_samples) {
