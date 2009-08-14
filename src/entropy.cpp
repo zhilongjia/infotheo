@@ -8,11 +8,11 @@ SEXP entropyR (SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice)
          PROTECT(Rdata = AS_INTEGER(Rdata));
          PROTECT(Rnrows= AS_INTEGER(Rnrows));
          PROTECT(Rncols= AS_INTEGER(Rncols));
-		 PROTECT(Rchoice= AS_INTEGER(Rchoice));
+	 PROTECT(Rchoice= AS_INTEGER(Rchoice));
          data = INTEGER_POINTER(Rdata);
          nrows= INTEGER_POINTER(Rnrows);
          ncols= INTEGER_POINTER(Rncols);   
-		 choice= INTEGER_POINTER(Rchoice);    
+	 choice= INTEGER_POINTER(Rchoice);    
          PROTECT(res = NEW_NUMERIC(1));
 		 bool *sel = new bool[*ncols];
 		 for( int i=0; i<*ncols; ++i )
@@ -117,30 +117,30 @@ double digamma(double z) {
       return digam;
 }
 
-double entropy_empirical(map< vector<int> ,int > frequencies, int nb_samples) {
+double entropy_empirical(std::map< std::vector<int> ,int > frequencies, int nb_samples) {
       double e = 0;
-      for (map< vector<int> ,int>::const_iterator iter = frequencies.begin(); iter != frequencies.end(); ++iter)
+      for (std::map< std::vector<int> ,int>::const_iterator iter = frequencies.begin(); iter != frequencies.end(); ++iter)
             e -= iter->second * log((double)iter->second);
       return log((double)nb_samples) + e/nb_samples;
 }
 
-double entropy_miller_madow(map< vector<int> ,int > frequencies, int nb_samples) {
+double entropy_miller_madow(std::map< std::vector<int> ,int > frequencies, int nb_samples) {
       return entropy_empirical(frequencies,nb_samples) + (int(frequencies.size())-1)/(2.0*nb_samples);
 }
 
-double entropy_dirichlet(map< vector<int> ,int > frequencies, int nb_samples, double beta) {
+double entropy_dirichlet(std::map< std::vector<int> ,int > frequencies, int nb_samples, double beta) {
       double e = 0;
-      for (map< vector<int> ,int>::const_iterator iter = frequencies.begin(); iter != frequencies.end(); ++iter)
+      for (std::map< std::vector<int> ,int>::const_iterator iter = frequencies.begin(); iter != frequencies.end(); ++iter)
             e+=(iter->second+beta)*(digamma(nb_samples+(frequencies.size()*beta)+1)-digamma(iter->second+beta+1));
       return e/(nb_samples+(frequencies.size()*beta));
 }
 
-double entropy_shrink(map< vector<int> ,int > frequencies, int nb_samples) 
+double entropy_shrink(std::map< std::vector<int> ,int > frequencies, int nb_samples) 
 {
       double w = 0;
       int p = frequencies.size(), n2 = nb_samples*nb_samples; 
       double lambda, beta;
-      for (map< vector<int> ,int>::const_iterator iter = frequencies.begin(); iter != frequencies.end(); ++iter) 
+      for (std::map< std::vector<int> ,int>::const_iterator iter = frequencies.begin(); iter != frequencies.end(); ++iter) 
             w += iter->second*iter->second;
          lambda = p*(n2 - w)/((nb_samples-1)*(w*p - n2));
       if(lambda >= 1)
@@ -153,8 +153,8 @@ double entropy_shrink(map< vector<int> ,int > frequencies, int nb_samples)
 
 double entropy(const int *d, int nsamples, int nvars, int c, bool *v) { 
 // H(d) using estimator c
-	map< vector<int> ,int > freq;
-	vector<int> sel;
+	std::map< std::vector<int> ,int > freq;
+	std::vector<int> sel;
 	bool ok = true;
 	int nsamples_ok = 0;
 	double H = 0;
@@ -210,7 +210,7 @@ double interaction(const int *d, int nsamples, int nvars, int c) {
 	for(int i = 0; i < nvars; ++i)//
 		sel[i] = false; //
 	
-	vector<int> indx;
+	std::vector<int> indx;
 	int n = nvars;
 	int j=1;
 	int k=n;

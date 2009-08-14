@@ -21,8 +21,7 @@ entropy <- function( X, method = "emp")
 	else if(method == "shrink")
 		choi<-3
 	else stop("unknown method")
-	res <- .Call( "entropyR",X,N,n, choi,
-                        DUP=FALSE,PACKAGE="infotheo")
+	res <- .Call( "entropyR",X,N,n, choi, PACKAGE="infotheo")
 	res
 }
 
@@ -48,8 +47,7 @@ multiinformation <- function( X, method = "emp")
 	else if(method == "shrink")
 		choi<-3
 	else stop("unknown method")
-	res <- .Call( "multiinformationR",X,N,n, choi,
-                        DUP=FALSE,PACKAGE="infotheo")
+	res <- .Call( "multiinformationR",X,N,n, choi, PACKAGE="infotheo")
 	res
 }
 
@@ -76,8 +74,7 @@ interinformation <- function( X, method = "emp")
 	else if(method == "shrink")
 		choi<-3
 	else stop("unknown method")
-	res <- .Call( "interactionR",X,N,n, choi,
-                        DUP=FALSE,PACKAGE="infotheo")
+	res <- .Call( "interactionR",X,N,n, choi, PACKAGE="infotheo")
 	res
 }
 
@@ -128,8 +125,7 @@ mutinformation<-function(X, Y=NULL, method="emp")
 				choi<-3
 			else stop("unknown method")
 			
-			res <- .Call( "buildMIM",X,N,n, choi,
-                        DUP=FALSE,PACKAGE="infotheo")
+			res <- .Call( "buildMIM",X,N,n, choi,PACKAGE="infotheo")
 			dim(res) <- c(n,n)
 			res <- as.matrix(res)
 			rownames(res) <- var.id

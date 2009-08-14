@@ -1,5 +1,5 @@
 #include <iostream>
-using namespace std;
+//using namespace std;
 #include <algorithm>
 #include <ctime>
 #include <cmath>
@@ -12,10 +12,10 @@ using namespace std;
 /* These functions are defined in the entropy.cpp file */
 
 double digamma(double z);
-double entropy_empirical(map< vector<int>,int > frequencies, int nb_samples);
-double entropy_dirichlet(map<  vector<int> ,int > frequencies, int nb_samples, double beta);
-double entropy_miller_madow(map<  vector<int> ,int > frequencies, int nb_samples);
-double entropy_shrink(map<  vector<int> ,int > frequencies, int nb_samples);
+double entropy_empirical(std::map< std::vector<int>,int > frequencies, int nb_samples);
+double entropy_dirichlet(std::map<  std::vector<int> ,int > frequencies, int nb_samples, double beta);
+double entropy_miller_madow(std::map<  std::vector<int> ,int > frequencies, int nb_samples);
+double entropy_shrink(std::map<  std::vector<int> ,int > frequencies, int nb_samples);
 double entropy(const int *d, int nsamples, int nvars, int c, bool *v);
 double multiinformation(const int *d, int nsamples, int nvars, int c);
 double interaction(const int *d, int nsamples, int nvars, int c);

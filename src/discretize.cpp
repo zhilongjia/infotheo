@@ -27,7 +27,7 @@ SEXP discEF( SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rnbins )
         int N=(*nrows);
         for( int s=0; s<N; ++s )
             col[s] = data[v*N+s];
-            sort(col,col+N);
+            std::sort(col,col+N);
 		//for( int j=0; ISNA(col[j]); ++j ) N--;
         for( int j=N-1; j > 0 && ISNA(col[j]); --j ) N--;
         int freq = N/(*nbins), mod = N%(*nbins);

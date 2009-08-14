@@ -2,12 +2,12 @@
 \alias{discretize}
 
 \title{Unsupervized Data Discretization}
-\usage{discretize( X, disc="equalfreq", nbins=sqrt(NROW(X)) )}
+\usage{discretize( X, disc="equalfreq", nbins=NROW(X)^(1/3) )}
 \arguments{
   \item{X}{ A data.frame containing data to be discretized. The columns contains variables and the rows samples.}
   \item{disc}{ The name of the discretization method to be used :"equalfreq", "equalwidth" or "globalequalwidth" (default : "equalfreq") - see references.}
   \item{nbins}{ Integer specifying the number of bins to be used for the discretization. By default the number of bins is set to 
-			  \eqn{\sqrt{N}}{sqrt(N)} where N is the number of samples.}
+			  \eqn{{N}^(1/3)}{(N)^(1/3)} where N is the number of samples.}
 }
 \value{\code{discretize} returns the discretized dataset.}
 \description{

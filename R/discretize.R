@@ -1,4 +1,4 @@
-discretize <- function( X, disc="equalfreq", nbins=sqrt(NROW(X)) )
+discretize <- function( X, disc="equalfreq", nbins=NROW(X)^(1/3) )
 {
       X <- as.data.frame(X)
       varnames <- names(X)
@@ -10,10 +10,10 @@ discretize <- function( X, disc="equalfreq", nbins=sqrt(NROW(X)) )
       res <- NULL
       if( disc=="equalfreq" )
             res <- .Call("discEF",X,NROW(X),NCOL(X),
-                          as.integer(nbins),DUP=FALSE, PACKAGE="infotheo")
+                          as.integer(nbins), PACKAGE="infotheo")
       else if( disc=="equalwidth" )
             res <- .Call("discEW",X,NROW(X),NCOL(X),
-                          as.integer(nbins),DUP=FALSE, PACKAGE="infotheo")
+                          as.integer(nbins), PACKAGE="infotheo")
 	  else if( disc=="globalequalwidth") 
 			res <- as.vector(cut(X, nbins, labels = FALSE))
 	  
