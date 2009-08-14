@@ -2,10 +2,10 @@
 \alias{multiinformation}
 
 \title{multiinformation computation}
-\usage{multiinformation(X, estimator="emp")}
+\usage{multiinformation(X, method ="emp")}
 \arguments{
   \item{X}{data.frame containing a set of random variables where columns contain variables/features and rows contain outcomes/samples.}
-  \item{estimator}{The name of the entropy estimator. The package implements four estimators : 
+  \item{method}{The name of the entropy estimator. The package implements four estimators : 
 			    "emp", "mm", "shrink", "sg" (default:"emp") - see details. 
                These estimators require discrete data values - see \code{\link{discretize}}.}
 }

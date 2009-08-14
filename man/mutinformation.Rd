@@ -2,18 +2,18 @@
 \alias{mutinformation}
 
 \title{mutual information computation}
-\usage{mutinformation(X, Y, estimator="emp")}
+\usage{mutinformation(X, Y, method="emp")}
 \arguments{
   \item{X}{vector/factor denoting a random variable or a data.frame denoting a random vector where columns contain variables/features and rows contain outcomes/samples.}
   \item{Y}{another random variable or random vector (vector/factor or data.frame).}
-  \item{estimator}{The name of the entropy estimator. The package implements four estimators : 
+  \item{method}{The name of the entropy estimator. The package implements four estimators : 
 			    "emp", "mm", "shrink", "sg" (default:"emp") - see details. 
                These estimators require discrete data values - see \code{\link{discretize}}.}
 }
 \value{ \code{mutinformation} returns the mutual information I(X;Y) in nats.}
 \description{
 	  \code{mutinformation} takes two random variables as input and computes the 
-	   mutual information in nats according to the entropy estimator \code{estimator}.
+	   mutual information in nats according to the entropy estimator \code{method}.
 	  If Y is not supplied and X is a matrix-like argument, the function returns a matrix of mutual 
 	  information between all pairs of variables in the dataset X.
  
@@ -40,7 +40,7 @@ New York.
   data(USArrests)
   dat<-discretize(USArrests)
   #computes the MIM (mutual information matrix)
-  I <- mutinformation(dat,estimator= "emp")
+  I <- mutinformation(dat,method= "emp")
   I2<- mutinformation(dat[,1],dat[,2])
 }
 \keyword{misc}

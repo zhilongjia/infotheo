@@ -2,19 +2,19 @@
 \alias{condinformation}
 
 \title{conditional mutual information computation}
-\usage{condinformation(X, Y, S=NULL, estimator="emp")}
+\usage{condinformation(X, Y, S=NULL, method="emp")}
 \arguments{
   \item{X}{vector/factor denoting a random variable or a data.frame denoting a random vector where columns contain variables/features and rows contain outcomes/samples.}
   \item{Y}{another random variable or random vector (vector/factor or data.frame).}
   \item{S}{the conditioning random variable or random vector (vector/factor or data.frame).}
-  \item{estimator}{The name of the entropy estimator. The package implements four estimators : 
+  \item{method}{The name of the entropy estimator. The package implements four estimators : 
 			    "emp", "mm", "shrink", "sg" (default:"emp") - see details. 
                These estimators require discrete data values - see \code{\link{discretize}}.}
 }
 \value{ \code{condinformation} returns the conditional mutual information, I(X;Y|S), in nats.}
 \description{
 	  \code{condinformation} takes three random variables as input and computes the 
-	  conditional mutual information in nats according to the entropy estimator \code{estimator}.
+	  conditional mutual information in nats according to the entropy estimator \code{method}.
 	  If S is not supplied the function returns the mutual information between X and Y - see \code{\link{mutinformation}}
 }
 \details{
@@ -38,6 +38,6 @@ New York.
 \examples{
   data(USArrests)
   dat<-discretize(USArrests)
-  I <- condinformation(dat[,1],dat[,2],dat[,3],estimator="emp")
+  I <- condinformation(dat[,1],dat[,2],dat[,3],method="emp")
 }
 \keyword{misc}

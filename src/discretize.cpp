@@ -44,7 +44,7 @@ SEXP discEF( SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rnbins )
                 int bin = -1;
                 for( int k=0; bin==-1 && k<(*nbins); ++k )
                    if( data[s+v*(*nrows)] <= spl[k] ) bin=k;
-                res[s+v*(*nrows)] = bin;
+                res[s+v*(*nrows)] = bin+1;
             }
             else res[s+v*(*nrows)]= NA_INTEGER;
      }
@@ -88,7 +88,7 @@ SEXP discEW( SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rnbins )
                            data[v*N+s]<(min+(b+1)*binsize) ) ) ++b;
                 if( b==(*nbins) ) 
                       b=(*nbins)-1;              
-                res[v*N+s]=b;
+                res[v*N+s]=b+1;
           }
     }
     UNPROTECT(7);

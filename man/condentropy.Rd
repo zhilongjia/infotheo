@@ -2,18 +2,18 @@
 \alias{condentropy}
 
 \title{conditional entropy computation}
-\usage{condentropy(X, Y=NULL, estimator="emp")}
+\usage{condentropy(X, Y=NULL, method="emp")}
 \arguments{
   \item{X}{data.frame denoting a random variable or random vector where columns contain variables/features and rows contain outcomes/samples.}
   \item{Y}{data.frame denoting a conditioning random variable or random vector where columns contain variables/features and rows contain outcomes/samples.}
-  \item{estimator}{The name of the entropy estimator. The package implements four estimators : 
+  \item{method}{The name of the entropy estimator. The package implements four estimators : 
 			    "emp", "mm", "shrink", "sg" (default:"emp") - see details. 
                These estimators require discrete data values - see \code{\link{discretize}}.}
 }
 \value{ \code{condentropy} returns the conditional entropy, H(X|Y), of X given Y in nats.}
 \description{
 	  \code{condentropy} takes two random vectors, X and Y, as input and returns the 
-	  conditional entropy, H(X|Y), in nats (base e), according to the entropy estimator \code{estimator}. 
+	  conditional entropy, H(X|Y), in nats (base e), according to the entropy estimator \code{method}. 
 	  If Y is not supplied the function returns the entropy of X - see \code{\link{entropy}}.
 }
 \details{
@@ -37,6 +37,6 @@ New York.
 \examples{
   data(USArrests)
   dat<-discretize(USArrests)
-  H <- condentropy(dat[,1], dat[,2], estimator = "mm")
+  H <- condentropy(dat[,1], dat[,2], method = "mm")
 }
 \keyword{misc}

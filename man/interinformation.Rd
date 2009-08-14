@@ -2,10 +2,10 @@
 \alias{interinformation}
 
 \title{interaction information computation}
-\usage{interinformation(X, estimator="emp")}
+\usage{interinformation(X, method="emp")}
 \arguments{
   \item{X}{data.frame denoting a random vector where columns contain variables/features and rows contain outcomes/samples.}
-  \item{estimator}{The name of the entropy estimator. The package implements four estimators : 
+  \item{method}{The name of the entropy estimator. The package implements four estimators : 
 			    "emp", "mm", "shrink", "sg" (default:"emp") - see details. 
                These estimators require discrete data values - see \code{\link{discretize}}.}
 }
@@ -13,7 +13,7 @@
 \description{
 	  \code{interinformation} takes a dataset as input and computes the 
 	  the interaction information among the random variables in the dataset using   
-	  the entropy estimator \code{estimator}. This measure is also called synergy or complementarity.
+	  the entropy estimator \code{method}. This measure is also called synergy or complementarity.
 }
 \details{
 \itemize{
@@ -39,6 +39,6 @@ McGill, W. J. (1954). Multivariate information transmission. Psychometrika, 19.
 \examples{
   data(USArrests)
   dat<-discretize(USArrests)
-  ii <- interinformation(dat, estimator = "sg")
+  ii <- interinformation(dat, method = "sg")
 }
 \keyword{misc}

@@ -2,10 +2,10 @@
 \alias{entropy}
 
 \title{entropy computation}
-\usage{entropy(X, estimator="emp")}
+\usage{entropy(X, method="emp")}
 \arguments{
   \item{X}{data.frame denoting a random vector  where columns contain variables/features and rows contain outcomes/samples.}
-  \item{estimator}{The name of the entropy estimator. The package implements four estimators : 
+  \item{method}{The name of the entropy estimator. The package implements four estimators : 
 			    "emp", "mm", "shrink", "sg" (default:"emp") - see details. 
                These estimators require discrete data values - see \code{\link{discretize}}.}
 }
@@ -13,7 +13,7 @@
 \description{
 	  \code{entropy} takes the dataset as input and computes the 
 	  entropy according 
-	  to the entropy estimator \code{estimator}. 
+	  to the entropy estimator \code{method}. 
 }
 \details{
 \itemize{
@@ -38,6 +38,6 @@ Meyer,  P. E.  (2008). Information-Theoretic Variable Selection and Network Infe
 \seealso{\code{\link{condentropy}}, \code{\link{mutinformation}}, \code{\link{natstobits}}}
 \examples{
   data(USArrests)
-  H <- entropy(discretize(USArrests),estimator="shrink")
+  H <- entropy(discretize(USArrests),method="shrink")
 }
 \keyword{misc}

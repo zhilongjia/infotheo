@@ -1,5 +1,5 @@
 
-entropy <- function( X, estimator = "emp")
+entropy <- function( X, method = "emp")
 {
       X<-data.frame(X)
 	  X<-data.matrix(X)
@@ -7,26 +7,26 @@ entropy <- function( X, estimator = "emp")
       N <- NROW(X)
 	  Z<-na.omit(X)
 	  if( !(all(Z==round(Z))))
-	      stop("This estimator requires discrete values")                      
-	if(n>32000)
-		stop("too many variables")
+	      stop("This method requires discrete values")                      
+	#if(n>32000)
+		#stop("too many variables")
     res <- NULL 
 
-    if( estimator == "emp")
+    if( method == "emp")
 		choi<-0
-	else if( estimator == "mm" )
+	else if( method == "mm" )
 		choi<-1
-	else if( estimator == "sg" )
+	else if( method == "sg" )
 		choi<-2
-	else if(estimator == "shrink")
+	else if(method == "shrink")
 		choi<-3
-	else stop("unknown estimator")
+	else stop("unknown method")
 	res <- .Call( "entropyR",X,N,n, choi,
                         DUP=FALSE,PACKAGE="infotheo")
 	res
 }
 
-multiinformation <- function( X, estimator = "emp")
+multiinformation <- function( X, method = "emp")
 {
 	  X<-data.frame(X)
       X<-data.matrix(X)
@@ -34,26 +34,26 @@ multiinformation <- function( X, estimator = "emp")
       N <- NROW(X)
 	  Z<-na.omit(X)
 	  if( !(all(Z==round(Z))))
-	      stop("This estimator requires discrete values")                      
-	if(n>32000)
-		stop("too many variables")
+	      stop("This method requires discrete values")                      
+	#if(n>32000)
+		#stop("too many variables")
     res <- NULL 
 
-     if( estimator == "emp")
+     if( method == "emp")
 		choi<-0
-	else if( estimator == "mm" )
+	else if( method == "mm" )
 		choi<-1
-	else if( estimator == "sg" )
+	else if( method == "sg" )
 		choi<-2
-	else if(estimator == "shrink")
+	else if(method == "shrink")
 		choi<-3
-	else stop("unknown estimator")
+	else stop("unknown method")
 	res <- .Call( "multiinformationR",X,N,n, choi,
                         DUP=FALSE,PACKAGE="infotheo")
 	res
 }
 
-interinformation <- function( X, estimator = "emp")
+interinformation <- function( X, method = "emp")
 {
 	  X<-data.frame(X)
 	  X<-data.matrix(X)
@@ -62,41 +62,41 @@ interinformation <- function( X, estimator = "emp")
 	  
 	 Z<-na.omit(X)
 	  if( !(all(Z==round(Z))))
-	      stop("This estimator requires discrete values")                      
+	      stop("This method requires discrete values")                      
 	if(n>500)
 		stop("too many variables")
     res <- NULL 
 
-    if( estimator == "emp")
+    if( method == "emp")
 		choi<-0
-	else if( estimator == "mm" )
+	else if( method == "mm" )
 		choi<-1
-	else if( estimator == "sg" )
+	else if( method == "sg" )
 		choi<-2
-	else if(estimator == "shrink")
+	else if(method == "shrink")
 		choi<-3
-	else stop("unknown estimator")
+	else stop("unknown method")
 	res <- .Call( "interactionR",X,N,n, choi,
                         DUP=FALSE,PACKAGE="infotheo")
 	res
 }
 
 #compute H(X|Y)
-condentropy<-function(X, Y=NULL, estimator="emp")
+condentropy<-function(X, Y=NULL, method="emp")
 {
 if(is.null(Y))
-   Hres<-entropy(X, estimator)
+   Hres<-entropy(X, method)
 else
    {
-   Hyx<-entropy(data.frame(Y,X), estimator)
-   Hy<-entropy(Y, estimator)
+   Hyx<-entropy(data.frame(Y,X), method)
+   Hy<-entropy(Y, method)
    Hres<-Hyx-Hy
    }
 Hres
 }
 
 #compute I(X;Y)
-mutinformation<-function(X, Y=NULL, estimator="emp")
+mutinformation<-function(X, Y=NULL, method="emp")
 {
 	res <- NULL 
 	if (is.null(Y))
@@ -115,32 +115,31 @@ mutinformation<-function(X, Y=NULL, estimator="emp")
 			N <- NROW(X)
 			Z<-na.omit(X)
 			if( !(all(Z==round(Z))))
-				stop("This estimator requires discrete values")                      
-			if(n>32000)
-				stop("too many variables")
-			if( estimator == "emp")
+				stop("This method requires discrete values")                      
+			#if(n>32000)
+				#stop("too many variables")
+			if( method == "emp")
 				choi<-0
-			else if( estimator == "mm" )
+			else if( method == "mm" )
 				choi<-1
-			else if( estimator == "sg" )
+			else if( method == "sg" )
 				choi<-2
-			else if(estimator == "shrink")
+			else if(method == "shrink")
 				choi<-3
-			else stop("unknown estimator")
+			else stop("unknown method")
 			
 			res <- .Call( "buildMIM",X,N,n, choi,
                         DUP=FALSE,PACKAGE="infotheo")
 			dim(res) <- c(n,n)
-			res <- as.data.frame(res)
-			names(res) <- var.id
-			row.names(res) <- var.id
-			as.matrix(res)
+			res <- as.matrix(res)
+			rownames(res) <- var.id
+            colnames(res) <- var.id
 		}
 	else {
 		U<-data.frame(Y,X)
-		Hyx<-entropy(U, estimator) 
-		Hx<-entropy(X, estimator)
-		Hy<-entropy(Y, estimator)
+		Hyx<-entropy(U, method) 
+		Hx<-entropy(X, method)
+		Hy<-entropy(Y, method)
 		res<-Hx+Hy-Hyx
 		if(res < 0)
 			res<-0
@@ -149,17 +148,17 @@ mutinformation<-function(X, Y=NULL, estimator="emp")
 }
 
 #compute I(X;Y|S)
-condinformation<-function(X,Y,S=NULL, estimator="emp")
+condinformation<-function(X,Y,S=NULL, method="emp")
 {
 if(is.null(S))
-   Ires<-mutinformation(X,Y, estimator)
+   Ires<-mutinformation(X,Y, method)
 else
    {
    U<-data.frame(S,X,Y)
-   Hysx<-entropy(U,estimator)
-   Hsx<-entropy(U[,c(1,2)],estimator)
-   Hys<-entropy(U[,c(1,3)],estimator)
-   Hs<-entropy(S,estimator)
+   Hysx<-entropy(U,method)
+   Hsx<-entropy(U[,c(1,2)],method)
+   Hys<-entropy(U[,c(1,3)],method)
+   Hs<-entropy(S,method)
    Ires<- Hys - Hs - Hysx + Hsx
    }
 Ires
