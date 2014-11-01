@@ -1,4 +1,5 @@
 #include "infotheo.h"
+#include "math.h"
 
 SEXP entropyR (SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice)
 {
@@ -101,6 +102,47 @@ SEXP buildMIM(SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice)
       return Rres;
 }
 
+SEXP buildNMIM(SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice)
+{
+      const int *data;
+      const int *nrows, *ncols, *choice;
+      double *ent, *res, mi;
+	  bool *sel;
+         SEXP Rres;
+         PROTECT(Rdata = AS_INTEGER(Rdata));
+         PROTECT(Rnrows = AS_INTEGER(Rnrows));
+         PROTECT(Rncols = AS_INTEGER(Rncols));
+		 PROTECT(Rchoice= AS_INTEGER(Rchoice));
+         data = INTEGER_POINTER(Rdata);
+         nrows= INTEGER_POINTER(Rnrows);
+         ncols= INTEGER_POINTER(Rncols);     
+		 choice= INTEGER_POINTER(Rchoice); 
+         PROTECT(Rres = NEW_NUMERIC((*ncols)*(*ncols)));
+         res = NUMERIC_POINTER(Rres);
+		 ent = new double[*ncols];
+		 sel = new bool[*ncols];
+		 for( int i=0; i<*ncols; ++i ){
+			res[i*(*ncols)+i]=0;
+			sel[i] = false;
+		 }
+		 for( int i=0; i<*ncols; ++i ){
+			sel[i] = true;
+			res[i*(*ncols)+i] = entropy(data, *nrows, *ncols, *choice, sel);
+			sel[i] = false;
+		 }
+	     for( int i=1; i<*ncols; ++i ){
+			sel[i] = true;
+			for( int j=0; j<i; ++j ) {
+				  sel[j] = true;
+                  res[j*(*ncols)+i] = res[i*(*ncols)+j] = res[i*(*ncols)+i] + res[j*(*ncols)+j] - entropy(data, *nrows, *ncols, *choice, sel);
+                  res[j*(*ncols)+i] = res[i*(*ncols)+j] = res[i*(*ncols)+j] / std::max(res[i*(*ncols)+i], res[j*(*ncols)+j]);
+				  sel[j] = false;
+			}
+			sel[i] = false;
+         }
+         UNPROTECT(5);
+      return Rres;
+}
 
 double digamma(double z) {
       if(z<=0) return 0;
@@ -240,3 +282,5 @@ double interaction(const int *d, int nsamples, int nvars, int c) {
 	}
 	return sum;
 }
+
+

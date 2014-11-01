@@ -27,6 +27,7 @@ SEXP discEF( SEXP data, SEXP nrows, SEXP ncols, SEXP nbins );
 SEXP discEW( SEXP data, SEXP nrows, SEXP ncols, SEXP nbins );
 SEXP entropyR(SEXP data, SEXP nrows, SEXP ncols, SEXP choice);
 SEXP buildMIM(SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice);
+SEXP buildNMIM(SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice);
 SEXP multiinformationR (SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice);
 SEXP interactionR (SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice);
 }
