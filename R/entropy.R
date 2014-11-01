@@ -187,7 +187,7 @@ NMI <-function(X, Y=NULL, method="emp")
 		Hyx<-entropy(U, method) 
 		Hx<-entropy(X, method)
 		Hy<-entropy(Y, method)
-		res<-Hx+Hy-Hyx
+		res<-(Hx+Hy-Hyx)/max(Hx, Hy)
 		if(res < 0)
 			res<-0
 	}
