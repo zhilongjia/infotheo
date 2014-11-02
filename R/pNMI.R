@@ -39,7 +39,7 @@
 #' @examples
 #' data(USArrests)
 #' pNMI(USArrests, 4)
-#' @export
+
 
 pNMI <-function(X, ncore, method="emp", type="max.marginal", disc = "equalfreq", 
                 nbins = NROW(X)^(1/3)){
