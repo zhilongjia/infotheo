@@ -4,11 +4,11 @@
 \title{paralleled normalised mutual information computation}
 \usage{
 pNMI(X, ncore, method = "emp", type = "max.marginal", disc = "equalfreq",
-  nbins = NROW(X)^(1/3))
+  nbins = NROW(X)^(1/3), verbose = TRUE)
 }
 \arguments{
 \item{X,}{vector/factor denoting a random variable or a data.frame denoting a
-random vector where columns contain variables/features and rows contain outcomes/samples.}
+random vector where \strong{column contain variables/features and row contain outcomes/samples.}}
 
 \item{ncore}{number of cores}
 
@@ -48,7 +48,7 @@ type of Normalization
 \item max.marginal MI = ( Hx + Hy - Hxy ) / max(Hx,Hy)
 \item min.conditional MI = ( Hx + Hy - Hxy ) / min(Hx.y,Hy.x)
 \item max.conditional MI = ( Hx + Hy - Hxy ) / max(Hx.y,Hy.x)
-\item MI no Normalization
+\item MI = no Normalization
 }
 }
 \examples{

@@ -21,7 +21,7 @@
 #' }
 #'
 #' @param X, vector/factor denoting a random variable or a data.frame denoting a 
-#' random vector where columns contain variables/features and rows contain outcomes/samples.
+#' random vector where \strong{column contain variables/features and row contain outcomes/samples.}
 #' @param ncore number of cores
 #' @param method The name of the entropy estimator. The package implements four 
 #' estimators : "emp", "mm", "shrink", "sg" (default:"emp") - see details.
@@ -42,13 +42,19 @@
 
 
 pNMI <-function(X, ncore, method="emp", type="max.marginal", disc = "equalfreq", 
-                nbins = NROW(X)^(1/3)){
+                nbins = NROW(X)^(1/3), verbose=TRUE){
     
     registerDoMC(ncore)
     
     #Unsupervized Data Discretization
-    X <- discretize(X, disc, nbins)
-    
+    if (verbose) {print("discretize")}
+    X <- foreach(i=1:ncol(X), .combine = cbind) %dopar% {
+            discretize(X[,i], disc, nbins)
+        }
+    #X <- discretize(X, disc, nbins)
+    if (verbose) {print("discretize done")}
+    #registerDoMC(ncore)
+    if (verbose) {print(paste("getDoParWorkers:", getDoParWorkers()))}
     NMI <- foreach(i=1:ncol(X), .combine=cbind) %:%
         foreach(j=1:ncol(X), .combine=c) %dopar% {
             Hxy <- entropy(data.frame(X[,c(i,j)]), method)
@@ -66,6 +72,7 @@ pNMI <-function(X, ncore, method="emp", type="max.marginal", disc = "equalfreq",
                              #max.marginal
                              ifelse(max(Hx, Hy) > 0, (Hx + Hy - Hxy)/max(Hx, Hy), 0))
         }
+
     colnames(NMI) = rownames(NMI) = colnames(X)
     return (NMI)
 }
