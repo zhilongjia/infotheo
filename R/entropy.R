@@ -144,57 +144,58 @@ mutinformation<-function(X, Y=NULL, method="emp")
 }
 
 #compute NMI(X;Y)
-NMI <-function(X, Y=NULL, method="emp")
-{
-	res <- NULL 
-	if (is.null(Y))
-		if(is.atomic(X))
-			stop("supply both 'X' and 'Y' or a matrix-like 'X'")
-		else {
-			var.id <- NULL
-			if( is.matrix(X) )
-				X<-data.frame(X)
-			if(is.data.frame(X)) 
-				var.id <- names(X) 
-			else stop("supply a matrix-like argument")
-			
-			X <- data.matrix(X)
-			n <- NCOL(X)
-			N <- NROW(X)
-			Z<-na.omit(X)
-			if( !(all(Z==round(Z))))
-				stop("This method requires discrete values")                      
-			#if(n>32000)
-				#stop("too many variables")
-			if( method == "emp")
-				choi<-0
-			else if( method == "mm" )
-				choi<-1
-			else if( method == "sg" )
-				choi<-2
-			else if(method == "shrink")
-				choi<-3
-			else stop("unknown method")
-			
-			res <- .Call( "buildNMIM",X,N,n, choi,PACKAGE="infotheo")
-			dim(res) <- c(n,n)
-			res <- as.matrix(res)
-			rownames(res) <- var.id
-            colnames(res) <- var.id
-		}
-	else {
-		U<-data.frame(Y,X)
-		Hyx<-entropy(U, method) 
-		Hx<-entropy(X, method)
-		Hy<-entropy(Y, method)
-		res<-(Hx+Hy-Hyx)/max(Hx, Hy)
-		if(res < 0)
-			res<-0
-	}
-	res
-}
+# NMI <-function(X, Y=NULL, method="emp")
+# {
+# 	res <- NULL 
+# 	if (is.null(Y))
+# 		if(is.atomic(X))
+# 			stop("supply both 'X' and 'Y' or a matrix-like 'X'")
+# 		else {
+# 			var.id <- NULL
+# 			if( is.matrix(X) )
+# 				X<-data.frame(X)
+# 			if(is.data.frame(X)) 
+# 				var.id <- names(X) 
+# 			else stop("supply a matrix-like argument")
+# 			
+# 			X <- data.matrix(X)
+# 			n <- NCOL(X)
+# 			N <- NROW(X)
+# 			Z<-na.omit(X)
+# 			if( !(all(Z==round(Z))))
+# 				stop("This method requires discrete values")                      
+# 			#if(n>32000)
+# 				#stop("too many variables")
+# 			if( method == "emp")
+# 				choi<-0
+# 			else if( method == "mm" )
+# 				choi<-1
+# 			else if( method == "sg" )
+# 				choi<-2
+# 			else if(method == "shrink")
+# 				choi<-3
+# 			else stop("unknown method")
+# 			
+# 			res <- .Call( "buildNMIM",X,N,n, choi,PACKAGE="infotheo")
+# 			dim(res) <- c(n,n)
+# 			res <- as.matrix(res)
+# 			rownames(res) <- var.id
+#             colnames(res) <- var.id
+# 		}
+# 	else {
+# 		U<-data.frame(Y,X)
+# 		Hyx<-entropy(U, method) 
+# 		Hx<-entropy(X, method)
+# 		Hy<-entropy(Y, method)
+# 		res<-(Hx+Hy-Hyx)/max(Hx, Hy)
+# 		if(res < 0)
+# 			res<-0
+# 	}
+# 	res
+# }
 
 
+    
 #compute I(X;Y|S)
 condinformation<-function(X,Y,S=NULL, method="emp")
 {

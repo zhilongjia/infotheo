@@ -28,7 +28,7 @@
 }
 }
 \author{
-  Patrick E. Meyer
+  Patrick E. Meyer, Zhilong
 }
 \references{
 Meyer,  P. E.  (2008). Information-Theoretic Variable Selection and Network Inference from Microarray Data. PhD thesis of the Universite Libre de Bruxelles.
