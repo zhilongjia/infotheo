@@ -33,7 +33,7 @@
 #' @param nbins Integer specifying the number of bins to be used for the 
 #' discretization. By default the number of bins is set to (N)^(1/3) where N is 
 #' the number of samples.
-#'
+#' 
 #' 
 #' @return a NMI matrix
 #' @examples
@@ -42,7 +42,7 @@
 
 
 pNMI <-function(X, ncore, method="emp", type="max.marginal", disc = "equalfreq", 
-                nbins = NROW(X)^(1/3), verbose=TRUE){
+                nbins = NROW(X)^(1/3), verbose=FALSE){
     
     registerDoMC(ncore)
     

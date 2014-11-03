@@ -135,7 +135,10 @@ SEXP buildNMIM(SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice)
 			for( int j=0; j<i; ++j ) {
 				  sel[j] = true;
                   res[j*(*ncols)+i] = res[i*(*ncols)+j] = res[i*(*ncols)+i] + res[j*(*ncols)+j] - entropy(data, *nrows, *ncols, *choice, sel);
-                  res[j*(*ncols)+i] = res[i*(*ncols)+j] = res[i*(*ncols)+j] / std::max(res[i*(*ncols)+i], res[j*(*ncols)+j]);
+                  // max.conditional
+                  // res[j*(*ncols)+i] = res[i*(*ncols)+j] = res[i*(*ncols)+j] / std::max((entropy(data, *nrows, *ncols, *choice, sel)-res[i*(*ncols)+i]), (entropy(data, *nrows, *ncols, *choice, sel)-res[j*(*ncols)+j]));
+				  // max.marginal
+				  res[j*(*ncols)+i] = res[i*(*ncols)+j] = res[i*(*ncols)+j] / std::max(res[i*(*ncols)+i], res[j*(*ncols)+j]); //max.marginal
 				  sel[j] = false;
 			}
 			sel[i] = false;
