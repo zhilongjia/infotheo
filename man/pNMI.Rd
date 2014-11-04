@@ -3,13 +3,10 @@
 \alias{pNMI}
 \title{paralleled normalised mutual information computation}
 \usage{
-pNMI(X, ncore, method = "emp", type = "max.marginal", disc = "equalfreq",
-  nbins = NROW(X)^(1/3), verbose = TRUE)
+pNMI(A, ncore, method = "emp", type = "max.marginal", disc = "equalfreq",
+  nbins = NROW(A)^(1/3), verbose = FALSE)
 }
 \arguments{
-\item{X,}{vector/factor denoting a random variable or a data.frame denoting a
-random vector where \strong{column contain variables/features and row contain outcomes/samples.}}
-
 \item{ncore}{number of cores}
 
 \item{method}{The name of the entropy estimator. The package implements four
@@ -25,6 +22,9 @@ include "marginal", "joint", "min.marginal", "max.marginal", "min.conditional",
 \item{nbins}{Integer specifying the number of bins to be used for the
 discretization. By default the number of bins is set to (N)^(1/3) where N is
 the number of samples.}
+
+\item{X,}{vector/factor denoting a random variable or a data.frame denoting a
+random vector where \strong{column contain variables/features and row contain outcomes/samples.}}
 }
 \value{
 a NMI matrix

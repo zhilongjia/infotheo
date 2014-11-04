@@ -1,5 +1,5 @@
 #include "infotheo.h"
-#include "math.h"
+
 
 SEXP entropyR (SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice)
 {
@@ -102,21 +102,23 @@ SEXP buildMIM(SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice)
       return Rres;
 }
 
-SEXP buildNMIM(SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice)
+SEXP buildNMIM(SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice, SEXP Rtyp)
 {
       const int *data;
-      const int *nrows, *ncols, *choice;
-      double *ent, *res, mi;
+      const int *nrows, *ncols, *choice, *typ;
+      double *ent, *res, Hx, Hy, Hxy, Hxcy, Hycx;
 	  bool *sel;
          SEXP Rres;
          PROTECT(Rdata = AS_INTEGER(Rdata));
          PROTECT(Rnrows = AS_INTEGER(Rnrows));
          PROTECT(Rncols = AS_INTEGER(Rncols));
 		 PROTECT(Rchoice= AS_INTEGER(Rchoice));
+         PROTECT(Rtyp= AS_INTEGER(Rtyp));
          data = INTEGER_POINTER(Rdata);
          nrows= INTEGER_POINTER(Rnrows);
          ncols= INTEGER_POINTER(Rncols);     
-		 choice= INTEGER_POINTER(Rchoice); 
+		 choice= INTEGER_POINTER(Rchoice);
+         typ= INTEGER_POINTER(Rtyp);
          PROTECT(Rres = NEW_NUMERIC((*ncols)*(*ncols)));
          res = NUMERIC_POINTER(Rres);
 		 ent = new double[*ncols];
@@ -134,16 +136,46 @@ SEXP buildNMIM(SEXP Rdata, SEXP Rnrows, SEXP Rncols, SEXP Rchoice)
 			sel[i] = true;
 			for( int j=0; j<i; ++j ) {
 				  sel[j] = true;
-                  res[j*(*ncols)+i] = res[i*(*ncols)+j] = res[i*(*ncols)+i] + res[j*(*ncols)+j] - entropy(data, *nrows, *ncols, *choice, sel);
-                  // max.conditional
-                  // res[j*(*ncols)+i] = res[i*(*ncols)+j] = res[i*(*ncols)+j] / std::max((entropy(data, *nrows, *ncols, *choice, sel)-res[i*(*ncols)+i]), (entropy(data, *nrows, *ncols, *choice, sel)-res[j*(*ncols)+j]));
-				  // max.marginal
-				  res[j*(*ncols)+i] = res[i*(*ncols)+j] = res[i*(*ncols)+j] / std::max(res[i*(*ncols)+i], res[j*(*ncols)+j]); //max.marginal
-				  sel[j] = false;
+                  Hx = res[i*(*ncols)+i];
+                  Hy = res[j*(*ncols)+j];
+                  Hxy = entropy(data, *nrows, *ncols, *choice, sel);
+                  sel[j] = false;
+                  Hxcy = Hxy - Hy;
+                  Hycx = Hxy - Hx;
+                  if (*typ == 0){
+                    res[j*(*ncols)+i] = res[i*(*ncols)+j] = 2*(Hx +Hy-Hxy)/(Hx+Hy);
+                  }
+                  else if (*typ == 1){
+                      res[j*(*ncols)+i] = res[i*(*ncols)+j] = 2*(Hx +Hy-Hxy)/Hxy;
+                  }
+                  else if (*typ == 2){
+                      res[j*(*ncols)+i] = res[i*(*ncols)+j] = (Hx +Hy-Hxy)/ std::min(Hx,Hy);
+                  }
+                  else if (*typ == 3){
+                      res[j*(*ncols)+i] = res[i*(*ncols)+j] = (Hx +Hy-Hxy)/ std::max(Hx,Hy);
+                  }
+                  else if (*typ == 4){
+                      res[j*(*ncols)+i] = res[i*(*ncols)+j] = (Hx +Hy-Hxy)/ std::min(Hxcy,Hycx);
+                  }
+                  else if (*typ == 5){
+                      res[j*(*ncols)+i] = res[i*(*ncols)+j] = (Hx +Hy-Hxy)/ std::max(Hxcy,Hycx);
+                  }
+                  else if (*typ == 6){
+                      res[j*(*ncols)+i] = res[i*(*ncols)+j] = Hx +Hy-Hxy;
+                  }
 			}
 			sel[i] = false;
          }
-         UNPROTECT(5);
+         //normalise the diag.
+         for(int i=0; i<*ncols; ++i){
+             if (*typ == 4 || *typ == 5){
+                res[i*(*ncols)+i] = 0;
+            }
+             else if (*typ <= 3){
+                res[i*(*ncols)+i] = 1;
+            }
+         }
+         UNPROTECT(6);
       return Rres;
 }
 
