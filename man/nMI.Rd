@@ -12,7 +12,7 @@ nMI(X, Y = NULL, method = "emp", type = "max.marginal")
 
 \item{method}{The name of the entropy estimator. The package implements four estimators : "emp", "mm", "shrink", "sg" (default:"emp") - see details. These estimators require discrete data values - see \code{\link{discretize}}.}
 
-\item{type}{method of normalization. Default is "NULL" and the Mutual Information is calculated as MI = Hx+Hy-Hxy. Other methods include "marginal", "joint", "min.marginal", "max.marginal", "min.conditional", "max.conditional". See details below.}
+\item{type}{method of normalization. Default is "NULL" and the Mutual Information is calculated as MI = Hx+Hy-Hxy. Other methods include "MI", "marginal", "joint", "min.marginal", "max.marginal", "min.conditional", "max.conditional". See details below.}
 }
 \value{
 \code{nMI} returns the normalised mutual information I(X;Y) in nats.
@@ -39,6 +39,7 @@ Type of Normalization:
 \item max.marginal MI = ( Hx + Hy - Hxy ) / max(Hx,Hy)
 \item min.conditional MI = ( Hx + Hy - Hxy ) / min(Hx.y,Hy.x)
 \item max.conditional MI = ( Hx + Hy - Hxy ) / max(Hx.y,Hy.x)
+\item MI MI = ( Hx + Hy - Hxy )
 }
 }
 \examples{

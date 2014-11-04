@@ -20,11 +20,12 @@
 #' \item max.marginal MI = ( Hx + Hy - Hxy ) / max(Hx,Hy) 
 #' \item min.conditional MI = ( Hx + Hy - Hxy ) / min(Hx.y,Hy.x) 
 #' \item max.conditional MI = ( Hx + Hy - Hxy ) / max(Hx.y,Hy.x)
+#' \item MI MI = ( Hx + Hy - Hxy )
 #' }
 #' @param X vector/factor denoting a random variable or a data.frame denoting a random vector where columns contain variables/features and rows contain outcomes/samples.
 #' @param Y another random variable or random vector (vector/factor or data.frame).
 #' @param method The name of the entropy estimator. The package implements four estimators : "emp", "mm", "shrink", "sg" (default:"emp") - see details. These estimators require discrete data values - see \code{\link{discretize}}.
-#' @param type method of normalization. Default is "NULL" and the Mutual Information is calculated as MI = Hx+Hy-Hxy. Other methods include "marginal", "joint", "min.marginal", "max.marginal", "min.conditional", "max.conditional". See details below.
+#' @param type method of normalization. Default is "NULL" and the Mutual Information is calculated as MI = Hx+Hy-Hxy. Other methods include "MI", "marginal", "joint", "min.marginal", "max.marginal", "min.conditional", "max.conditional". See details below.
 #' @return \code{nMI} returns the normalised mutual information I(X;Y) in nats.
 #' 
 #' @author Zhilong JIA
